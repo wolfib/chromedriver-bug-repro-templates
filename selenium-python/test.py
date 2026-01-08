@@ -17,6 +17,9 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 
 # The chrome and chromedriver installation can take some time.
 # Give 5 minutes to install everything.
@@ -56,8 +59,14 @@ def test_should_be_able_to_navigate_to_google_com(driver):
 def test_issue_reproduction(driver):
     """Add test reproducing the issue here."""
     driver.get("https://wpt.live/webdriver/tests/support/html/test_actions_scroll.html")
-    target = driver.find.css("#scrollable", all=False)
-    driver.actions.sequence("wheel", "wheel_id").scroll(0, 0, 5, 10, origin=target).perform()
+    driver.implicitly_wait(0.5)
+    # target = driver.find.css("#scrollable", all=False)
+    target = driver.find_element(by=By.CSS_SELECTOR, value="#scrollable")
+    # driver.actions.sequence("wheel", "wheel_id").scroll(0, 0, 5, 10, origin=target).perform()
+    scroll_origin = ScrollOrigin.from_element(target)
+    ActionChains(driver)\
+        .scroll_from_origin(scroll_origin, 5, 10)\
+        .perform()
 
 
 
