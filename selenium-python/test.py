@@ -55,4 +55,38 @@ def test_should_be_able_to_navigate_to_google_com(driver):
 @pytest.mark.timeout(TIMEOUT)
 def test_issue_reproduction(driver):
     """Add test reproducing the issue here."""
-    pass
+    driver.get("https://wpt.live/webdriver/tests/support/html/test_actions_scroll.html")
+    target = driver.find.css("#scrollable", all=False)
+    driver.actions.sequence("wheel", "wheel_id").scroll(0, 0, 5, 10, origin=target).perform()
+
+
+
+
+# def test_scroll_scrollable_overflow(session, test_actions_scroll_page, wheel_chain):
+#     target = session.find.css("#scrollable", all=False)
+
+#     wheel_chain.scroll(0, 0, 5, 10, origin=target).perform()
+
+#     events = get_events(session)
+#     assert len(events) == 1
+#     assert events[0]["type"] == "wheel"
+#     assert events[0]["deltaX"] == 5
+#     assert events[0]["deltaY"] == 10
+#     assert events[0]["deltaZ"] == 0
+#     assert events[0]["target"] == "scrollable-content"
+
+
+# @pytest.fixture
+# def test_actions_scroll_page(session, url):
+#     session.url = url("/webdriver/tests/support/html/test_actions_scroll.html")
+
+# @pytest.fixture
+# def wheel_chain(session):
+#     return session.actions.sequence("wheel", "wheel_id")
+
+
+# def test_scroll_events_for_overflow(session, test_actions_scroll_page, wheel_chain):
+#     target = session.find.css("#scrollable", all=False)
+
+#     wheel_chain.scroll(0, 0, 5, 10, origin=target).perform()
+
